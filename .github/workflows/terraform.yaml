@@ -23,6 +23,9 @@ env:
  
 jobs:
  terraform:
+   permissions:
+    issues: write
+    contents: read
    name: "Terraform Infrastructure Change Management"
    runs-on: ubuntu-latest
    defaults:
