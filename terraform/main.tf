@@ -5,10 +5,6 @@ terraform {
    }
  }
  
- backend "s3" {
-   region = "us-west-2"
-   key    = "Testing-aws-nicolasb"
- }
 }
  
 provider "aws" {
