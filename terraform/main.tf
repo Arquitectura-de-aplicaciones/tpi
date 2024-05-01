@@ -19,14 +19,6 @@ resource "aws_instance" "test_instance" {
   }
 }
 
-resource "aws_instance" "test_instance_2" {
-  ami           = "ami-830c94e3"
-  instance_type = "t3.nano"
-  tags = {
-    Name = "test_instance_2"
-  }
-}
-
 resource "aws_instance" "test_instance_3" {
   ami           = "ami-830c94e3"
   instance_type = "t2.nano"
