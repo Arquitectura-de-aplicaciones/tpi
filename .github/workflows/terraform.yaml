@@ -27,6 +27,10 @@ permissions:
 
 jobs:
  terraform:
+   permissions:
+    issues: write
+    contents: read
+    pull-requests: write
    name: "Terraform Infrastructure Change Management"
    runs-on: ubuntu-latest
    defaults:
