@@ -20,12 +20,13 @@ env:
  AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
  # S3 bucket for the Terraform state
  BUCKET_TF_STATE: ${{ secrets.BUCKET_TF_STATE}}
- 
+
+permissions:
+ issues: write
+ contents: read
+
 jobs:
  terraform:
-   permissions:
-    issues: write
-    contents: read
    name: "Terraform Infrastructure Change Management"
    runs-on: ubuntu-latest
    defaults:
