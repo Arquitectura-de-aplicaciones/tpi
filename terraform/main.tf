@@ -40,7 +40,7 @@ resource "aws_db_instance" "example_db" {
   engine               = "mysql"
   engine_version       = "5.7"
   instance_class       = "db.t2.micro"
-  db_name              = "Backend DB"
+  db_name              = "Backend Database"
   username             = "user"
   password             = "pass"
   parameter_group_name = "default.mysql5.7"
