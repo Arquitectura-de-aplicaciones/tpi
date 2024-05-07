@@ -21,11 +21,15 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install -r report/requirements.txt  # Assuming you have a requirements.txt
+          pip install -r report/requirements.txt
 
       - name: Run script and generate report
+        env:
+          AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         run: |
-          python report/report.py  # This should generate an HTML file
+          python report/report.py
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
