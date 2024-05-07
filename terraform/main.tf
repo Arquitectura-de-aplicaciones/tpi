@@ -27,6 +27,15 @@ resource "aws_instance" "test_instance_3" {
   }
 }
 
+resource "aws_instance" "test_instance_4" {
+  ami           = "ami-830c94e3"
+  instance_type = "t2.nano"
+  tags = {
+    Name = "test_instance_4"
+  }
+}
+
+
 resource "aws_db_instance" "example_db" {
   allocated_storage    = 20
   engine               = "mysql"
