@@ -27,5 +27,19 @@ resource "aws_instance" "test_instance_3" {
   }
 }
 
+resource "aws_db_instance" "example_db" {
+  allocated_storage    = 20
+  engine               = "mysql"
+  engine_version       = "5.7"
+  instance_class       = "db.t2.micro"
+  db_name              = "Backend Database"
+  username             = "user"
+  password             = "pass"
+  parameter_group_name = "default.mysql5.7"
+  tags = {
+    Name = "Backend DB"
+  }
+}
+
 
 
