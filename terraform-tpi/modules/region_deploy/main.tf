@@ -3,9 +3,9 @@ variable "region" {}
 resource "aws_lambda_function" "example_lambda" {
   function_name = "lambda-${var.region}"
   handler       = "index.handler"
-  runtime       = "nodejs14.x"
+  runtime       = "nodejs20.x"
   role          = aws_iam_role.lambda_role.arn
-  filename      = "path_to_your_zip_file.zip"
+  filename      = "function.zip"
 }
 
 resource "aws_sns_topic" "example_topic" {
