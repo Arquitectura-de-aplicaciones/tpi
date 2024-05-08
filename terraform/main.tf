@@ -5,10 +5,10 @@ terraform {
     }
   }
   backend "s3" {
-    bucket         = "tpi-tfstate"
-    key            = "terraform.tfstate"
-    region         = "us-west-2"
-    encrypt        = true
+    bucket  = "tpi-tfstate"
+    key     = "terraform.tfstate"
+    region  = "us-west-2"
+    encrypt = true
   }
 }
 
@@ -24,30 +24,13 @@ resource "aws_instance" "test_instance" {
   }
 }
 
-resource "aws_instance" "test_instance_3" {
+resource "aws_instance" "test_instance_2" {
   ami           = "ami-830c94e3"
   instance_type = "t3.nano"
   tags = {
     Name = "test_instance_3"
   }
 }
-
-resource "aws_instance" "test_instance_4" {
-  ami           = "ami-830c94e3"
-  instance_type = "t2.nano"
-  tags = {
-    Name = "test_instance_4"
-  }
-}
-
-resource "aws_instance" "test_instance_5" {
-  ami           = "ami-830c94e3"
-  instance_type = "t2.nano"
-  tags = {
-    Name = "test_instance_5"
-  }
-}
-
 
 resource "aws_db_instance" "example_db" {
   allocated_storage    = 20
