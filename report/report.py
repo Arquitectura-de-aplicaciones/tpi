@@ -379,7 +379,7 @@ def generate_html_report(terraform_resources, aws_resources_ec2, aws_output_rds,
 </body>
 </html>
 """
-    with open("index.html", "w") as file:
+    with open("./index.html", "w") as file:
         file.write(html_template)
 
 terraform_resources = parse_terraform_file('./terraform/main.tf')
