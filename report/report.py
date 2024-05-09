@@ -13,6 +13,7 @@ def list_ec2_instances():
     for reservation in instances['Reservations']:
         for instance in reservation['Instances']:
             instance['Region'] = region  # Append region to each instance
+
     return instances
 
 def list_rds_instances():
@@ -148,6 +149,8 @@ def generate_report(terraform_output, aws_output_ec2, aws_output_rds, aws_output
     lambda_icon_url = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTBmTsbyIoAIBzCzjk334X8fh4YnqOsomM_Prm5uXjklA&s' 
     s3_icon_url= 'https://seeklogo.com/images/A/amazon-s3-simple-storage-service-logo-9A3F37976E-seeklogo.com.png'
     html_report = []
+    missing_count = 0
+    deployed_count = 0
 
     terraform_instances = parse_tf_ec2_instances(terraform_output)
     terraform_rds_instances = parse_tf_rds_instances(terraform_output)
@@ -164,61 +167,72 @@ def generate_report(terraform_output, aws_output_ec2, aws_output_rds, aws_output
 
     for tf_instance in terraform_instances:
         match_found = False
+        ec2_line=f"<img src='{ec2_icon_url}' alt='EC2 Icon' class='ec2-icon'><b>EC2</b> {tf_instance['name']} in {tf_instance['region']} with AMI {tf_instance['ami']} and type {tf_instance['instance_type']}"
         for aws_instance in aws_ec2_instances:
             if (tf_instance['ami'] == aws_instance['ami'] and
                 tf_instance['instance_type'] == aws_instance['instance_type'] and
                 tf_instance['tags'] == aws_instance['tags'] and
                 tf_instance['region'] == aws_instance['region']):
-                deployed_ec2.append(f"<img src='{ec2_icon_url}' alt='EC2 Icon' class='ec2-icon'><b>EC2</b> {tf_instance['name']} in {tf_instance['region']} with AMI {tf_instance['ami']} and type {tf_instance['instance_type']}")
+                deployed_ec2.append(ec2_line)
                 match_found = True
+                deployed_count += 1
                 break
         if not match_found:
-            missing_ec2.append(f"<img src='{ec2_icon_url}' alt='EC2 Icon' class='ec2-icon'><b>EC2</b> {tf_instance['name']} in {tf_instance['region']} with AMI {tf_instance['ami']} and type {tf_instance['instance_type']}")
+            missing_ec2.append(ec2_line)
+            missing_count += 1
 
     # Compare RDS Instances
     deployed_rds = []
     missing_rds = []
     for tf_db in terraform_rds_instances:
         match_found = False
+        rds_line = f"<img src='{rds_icon_url}' alt='RDS Icon' class='rds-icon'><b>RDS</b> {tf_db['name']} in {tf_db['region']} with class {tf_db['db_instance_class']} and engine {tf_db['engine']}"
         for aws_db in aws_rds_instances:
             print(tf_db)
             print(aws_db)
             if (tf_db['db_instance_class'] == aws_db['db_instance_class'] and
                 tf_db['engine'] == aws_db['engine'] and
                 tf_db['name'] == aws_db['name']):
-                deployed_rds.append(f"<img src='{rds_icon_url}' alt='RDS Icon' class='rds-icon'><b>RDS</b> {tf_db['name']} in {tf_db['region']} with engine {tf_db['engine']} and class {tf_db['db_instance_class']}")
+                deployed_rds.append(rds_line)
                 match_found = True
+                deployed_count += 1
                 break
         if not match_found:
-            missing_rds.append(f"<img src='{rds_icon_url}' alt='RDS Icon' class='rds-icon'><b>RDS</b> {tf_db['name']} in {tf_db['region']} with engine {tf_db['engine']} and class {tf_db['db_instance_class']}")
+            missing_rds.append(rds_line)
+            missing_count += 1
 
     deployed_lambda = []
     missing_lambda = []
     for tf_lambda in terraform_lambda_functions:
         match_found = False
+        lambda_line = f"<img src='{lambda_icon_url}' alt='RDS Icon' class='rds-icon'><b>Lambda</b> {tf_lambda['name']} in {tf_lambda['region']} with runtime {tf_lambda['runtime']} and memory {tf_lambda['memory']}"
         for aws_lambda in aws_lambda_functions:
             if tf_lambda['name'] == aws_lambda['name']:
-                deployed_lambda.append(f"<img src='{lambda_icon_url}' alt='RDS Icon' class='rds-icon'><b>Lambda</b> {tf_lambda['name']} in {tf_lambda['region']} with runtime {tf_lambda['runtime']} and memory {tf_lambda['memory']}")
+                deployed_lambda.append(lambda_line)
                 match_found = True
+                deployed_count += 1
                 break
         if not match_found:
-            missing_lambda.append(f"<img src='{lambda_icon_url}' alt='RDS Icon' class='rds-icon'><b>Lambda</b> {tf_lambda['name']} in {tf_lambda['region']} with runtime {tf_lambda['runtime']} and memory {tf_lambda['memory']}")
+            missing_lambda.append(lambda_line)
+            missing_count += 1
 
     deployed_s3 = []
     missing_s3 = []
     for tf_s3 in terraform_s3_buckets:
         match_found = False
+        s3_line = f"<img src='{s3_icon_url}' alt='RDS Icon' class='rds-icon'><b>S3</b> {tf_s3['name']} in {tf_s3['region']}"
         for aws_s3 in aws_s3_buckets:
             if tf_s3['name'] == aws_s3['name']:
-                deployed_s3.append(f"<img src='{s3_icon_url}' alt='RDS Icon' class='rds-icon'><b>S3</b> {tf_s3['name']} in {tf_s3['region']}")
+                deployed_s3.append(s3_line)
                 match_found = True
+                deployed_count += 1
                 break
         if not match_found:
-            missing_s3.append(f"<img src='{s3_icon_url}' alt='RDS Icon' class='rds-icon'><b>S3</b> {tf_s3['name']} in {tf_s3['region']}")
+            missing_s3.append(s3_line)
+            missing_count += 1
     
 
-
-    html_report.append('<button class="collapsible missing-button">Missing Services <span class="collapsible-icon">&#9660;</span></button><div class="content"><ul>')
+    html_report.append(f'<button class="collapsible missing-button">Missing Services: {missing_count} <span class="collapsible-icon">&#9660;</span></button><div class="content"><ul>')
     for service in missing_ec2:
         html_report.append(f"<li class='missing'>{service}</li>")
     for service in missing_rds:
@@ -229,7 +243,7 @@ def generate_report(terraform_output, aws_output_ec2, aws_output_rds, aws_output
         html_report.append(f"<li class='missing'>{s3_bucket}</li>")
     html_report.append('</ul></div>')
 
-    html_report.append('<button class="collapsible ok-button">Deployed Services <span class="collapsible-icon">&#9660;</span></button><div class="content"><ul>')
+    html_report.append(f'<button class="collapsible ok-button">Deployed Services: {deployed_count} <span class="collapsible-icon">&#9660;</span></button><div class="content"><ul>')
     for service in deployed_ec2:
         html_report.append(f"<li class='ok'>{service}</li>")
     for service in deployed_rds:
@@ -239,7 +253,6 @@ def generate_report(terraform_output, aws_output_ec2, aws_output_rds, aws_output
     for s3_bucket in deployed_s3:
         html_report.append(f"<li class='ok'>{s3_bucket}</li>")
     html_report.append('</ul></div>')
-
 
     return '\n'.join(html_report)
 
@@ -261,6 +274,17 @@ def generate_html_report(terraform_resources, aws_resources_ec2, aws_output_rds,
             margin: 0;
             padding: 20px;
             color: #333;
+        }}
+        .report {{
+            font-family: Arial, sans-serif; /* Using a more readable font */
+            color: #333; /* A softer color for the text */
+            background-color: #f9f9f9; /* A light background for the paragraph */
+            border: 1px solid #ccc; /* A subtle border */
+            border-radius: 8px; /* Rounded corners for modern look */
+            padding: 10px; /* Some padding for spacing inside the border */
+            margin: 10px 0; /* Some margin for spacing outside the border */
+            box-shadow: 2px 2px 5px rgba(0,0,0,0.1); /* A light shadow for 3D effect */
+            max-width: 300px; /* Maximum width of the element */
         }}
         .ec2-icon, .rds-icon {{
             height: 24px;

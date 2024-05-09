@@ -16,23 +16,25 @@ provider "aws" {
   region = "us-west-2"
 }
 
-resource "aws_instance" "test_instance" {
+resource "aws_instance" "web_server" {
   ami           = "ami-830c94e3"
   instance_type = "t2.nano"
   tags = {
-    Name = "test_instance"
+    Name = "web_server"
   }
 }
 
-resource "aws_instance" "test_instance_2" {
+/*
+resource "aws_instance" "backend_server" {
   ami           = "ami-830c94e3"
   instance_type = "t3.nano"
   tags = {
-    Name = "test_instance_3"
+    Name = "backend_server"
   }
 }
+*/
 
-resource "aws_db_instance" "example_db" {
+resource "aws_db_instance" "primary_db" {
   allocated_storage    = 20
   engine               = "mysql"
   engine_version       = "5.7"
@@ -42,7 +44,7 @@ resource "aws_db_instance" "example_db" {
   password             = "pass"
   parameter_group_name = "default.mysql5.7"
   tags = {
-    Name = "Backend DB"
+    Name = "primary_db"
   }
 }
 
@@ -61,8 +63,8 @@ resource "aws_db_instance" "read_replica" {
   }
 }*/
 
-resource "aws_lambda_function" "example_lambda" {
-  function_name = "example_lambda"
+resource "aws_lambda_function" "data_processing" {
+  function_name = "data_processing"
   handler       = "index.handler"
   runtime       = "nodejs20.x"
   role          = aws_iam_role.lambda_role.arn
@@ -88,6 +90,6 @@ resource "aws_iam_role" "lambda_role" {
   })
 }
 
-resource "aws_s3_bucket" "example_bucket" {
-  bucket = "tpi-example-bucket"
+resource "aws_s3_bucket" "logs_storage" {
+  bucket = "log_storage_tpi"
 }
