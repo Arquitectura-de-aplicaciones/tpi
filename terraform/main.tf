@@ -90,6 +90,6 @@ resource "aws_iam_role" "lambda_role" {
   })
 }
 
-resource "aws_s3_bucket" "logs_storage" {
-  bucket = "log_storage_tpi"
+resource "aws_s3_bucket" "log_storage" {
+  bucket = "log-storage-tpi"
 }
