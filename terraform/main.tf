@@ -24,7 +24,7 @@ resource "aws_instance" "web_server" {
   }
 }
 
-
+/*
 resource "aws_instance" "backend_server" {
   ami           = "ami-830c94e3"
   instance_type = "t3.nano"
@@ -32,7 +32,7 @@ resource "aws_instance" "backend_server" {
     Name = "backend_server"
   }
 }
-
+*/
 
 resource "aws_db_instance" "primary_db" {
   allocated_storage    = 20

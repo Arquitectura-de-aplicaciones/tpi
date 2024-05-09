@@ -1,6 +1,8 @@
 import hcl2
 import boto3
 
+import time 
+
 def parse_terraform_file(file_path):
     with open(file_path, 'r') as file:
         tf_config = hcl2.load(file)
@@ -405,6 +407,8 @@ def generate_html_report(terraform_resources, aws_resources_ec2, aws_output_rds,
 """
     with open("./index.html", "w") as file:
         file.write(html_template)
+
+time.sleep(30)
 
 terraform_resources = parse_terraform_file('./terraform/main.tf')
 aws_resources_ec2 = list_ec2_instances()
