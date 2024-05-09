@@ -14,6 +14,17 @@
             padding: 20px;
             color: #333;
         }
+        .report {
+            font-family: Arial, sans-serif; /* Using a more readable font */
+            color: #333; /* A softer color for the text */
+            background-color: #f9f9f9; /* A light background for the paragraph */
+            border: 1px solid #ccc; /* A subtle border */
+            border-radius: 8px; /* Rounded corners for modern look */
+            padding: 10px; /* Some padding for spacing inside the border */
+            margin: 10px 0; /* Some margin for spacing outside the border */
+            box-shadow: 2px 2px 5px rgba(0,0,0,0.1); /* A light shadow for 3D effect */
+            max-width: 300px; /* Maximum width of the element */
+        }
         .ec2-icon, .rds-icon {
             height: 24px;
             width: 24px; /* Set a fixed width */
@@ -108,15 +119,14 @@
     <div class="container">
         <h1>AWS Deploy Report</h1>
         <hr class="gradient">
-        <button class="collapsible missing-button">Missing Services <span class="collapsible-icon">&#9660;</span></button><div class="content"><ul>
-<li class='missing'><img src='https://newrelic.com/sites/default/files/quickstarts/images/icons/aws-rds--logo.svg' alt='RDS Icon' class='rds-icon'><b>RDS</b> Backend DB in us-west-2 with engine mysql and class db.t2.micro</li>
+        <button class="collapsible missing-button">Missing Services: 4 <span class="collapsible-icon">&#9660;</span></button><div class="content"><ul>
+<li class='missing'><img src='https://miro.medium.com/v2/resize:fit:300/0*feclcsOioZtq8ceI.png' alt='EC2 Icon' class='ec2-icon'><b>EC2</b> test_instance_3 in us-west-2 with AMI ami-830c94e3 and type t3.nano</li>
+<li class='missing'><img src='https://newrelic.com/sites/default/files/quickstarts/images/icons/aws-rds--logo.svg' alt='RDS Icon' class='rds-icon'><b>RDS</b> Backend DB in us-west-2 with class db.t2.micro and engine mysql</li>
+<li class='missing'><img src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTBmTsbyIoAIBzCzjk334X8fh4YnqOsomM_Prm5uXjklA&s' alt='RDS Icon' class='rds-icon'><b>Lambda</b> example_lambda in us-west-2 with runtime nodejs20.x and memory 128</li>
+<li class='missing'><img src='https://seeklogo.com/images/A/amazon-s3-simple-storage-service-logo-9A3F37976E-seeklogo.com.png' alt='RDS Icon' class='rds-icon'><b>S3</b> tpi-example-bucket in us-west-2</li>
 </ul></div>
-<button class="collapsible ok-button">Deployed Services <span class="collapsible-icon">&#9660;</span></button><div class="content"><ul>
+<button class="collapsible ok-button">Deployed Services: 1 <span class="collapsible-icon">&#9660;</span></button><div class="content"><ul>
 <li class='ok'><img src='https://miro.medium.com/v2/resize:fit:300/0*feclcsOioZtq8ceI.png' alt='EC2 Icon' class='ec2-icon'><b>EC2</b> test_instance in us-west-2 with AMI ami-830c94e3 and type t2.nano</li>
-<li class='ok'><img src='https://miro.medium.com/v2/resize:fit:300/0*feclcsOioZtq8ceI.png' alt='EC2 Icon' class='ec2-icon'><b>EC2</b> test_instance_3 in us-west-2 with AMI ami-830c94e3 and type t2.nano</li>
-<li class='ok'><img src='https://newrelic.com/sites/default/files/quickstarts/images/icons/aws-rds--logo.svg' alt='RDS Icon' class='rds-icon'><b>RDS</b> ReadReplica in us-west-2 with engine mysql and class db.t3.micro</li>
-<li class='ok'><img src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTBmTsbyIoAIBzCzjk334X8fh4YnqOsomM_Prm5uXjklA&s' alt='RDS Icon' class='rds-icon'><b>Lambda</b> example_lambda in us-west-2 with runtime nodejs20.x and memory 128</li>
-<li class='ok'><img src='https://seeklogo.com/images/A/amazon-s3-simple-storage-service-logo-9A3F37976E-seeklogo.com.png' alt='RDS Icon' class='rds-icon'><b>S3</b> tpi-example-bucket in us-west-2</li>
 </ul></div>
     </div>
     <script>
