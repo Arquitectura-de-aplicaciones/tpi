@@ -24,7 +24,7 @@ resource "aws_instance" "web_server" {
   }
 }
 
-*/
+/*
 resource "aws_instance" "backend_server" {
   ami           = "ami-830c94e3"
   instance_type = "t3.nano"
