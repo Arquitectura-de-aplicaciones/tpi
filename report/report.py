@@ -255,7 +255,7 @@ def generate_report(terraform_output, aws_output_ec2, aws_output_rds, aws_output
     for s3_bucket in deployed_s3:
         html_report.append(f"<li class='ok'>{s3_bucket}</li>")
     html_report.append('</ul></div>')
-
+    print(f'Missing: {missing_count}, Deployed: {deployed_count}')
     return '\n'.join(html_report)
 
 
